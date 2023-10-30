@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libfractalelib.a CMakeFiles/fractalelib.dir/color.cpp.o CMakeFiles/fractalelib.dir/draw_parallel.cpp.o CMakeFiles/fractalelib.dir/draw_serial.cpp.o CMakeFiles/fractalelib.dir/modules.cpp.o
-/usr/bin/ranlib ../lib/libfractalelib.a

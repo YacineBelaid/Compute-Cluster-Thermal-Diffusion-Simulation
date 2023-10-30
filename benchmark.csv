@@ -1,0 +1,36 @@
+Methode, Fonction, Duree Serie, Duree Parallele, Acceleration, Efficience, 
+serial, Fit, 3606, 1985, 1.81662, 0.908312
+serial, Classify, 178, 85, 2.09412, 1.04706
+serial, Compare, 109, 53, 2.0566, 1.0283
+serial, Fit, 6966, 4208, 1.65542, 0.827709
+serial, Classify, 177, 90, 1.96667, 0.983333
+serial, Compare, 108, 51, 2.11765, 1.05882
+serial, Fit, 7084, 4886, 1.44986, 0.724928
+serial, Classify, 183, 92, 1.98913, 0.994565
+serial, Compare, 109, 57, 1.91228, 0.95614
+serial, Fit, 13547, 7521, 1.80122, 0.900612
+serial, Classify, 195, 89, 2.19101, 1.09551
+serial, Compare, 111, 47, 2.3617, 1.18085
+serial, Fit, 3642, 2177, 1.67294, 0.836472
+serial, Classify, 177, 84, 2.10714, 1.05357
+serial, Compare, 110, 53, 2.07547, 1.03774
+serial, Fit, 9226, 5445, 1.6944, 0.847199
+serial, Classify, 175, 89, 1.96629, 0.983146
+serial, Compare, 109, 52, 2.09615, 1.04808
+serial, Fit, 54140, 28624, 1.89142, 0.94571
+serial, Classify, 175, 87, 2.01149, 1.00575
+serial, Compare, 107, 52, 2.05769, 1.02885
+serial, Fit, 13791, 7078, 1.94843, 0.974216
+serial, Classify, 179, 86, 2.0814, 1.0407
+serial, Compare, 111, 51, 2.17647, 1.08824
+serial, Fit, 3571, 2064, 1.73014, 0.865068
+serial, Classify, 180, 87, 2.06897, 1.03448
+serial, Compare, 108, 51, 2.11765, 1.05882
+serial, Fit, 8745, 6534, 1.33838, 0.669192
+serial, Classify, 190, 153, 1.24183, 0.620915
+serial, Compare, 116, 73, 1.58904, 0.794521
+
+Methode, Fonction, Moyenne Serie, Moyenne Parallele, Moyenne Acceleration, Moyenne Efficience, 
+-, Fit, 12431.8, 7052.2, 1.76283, 0.881413
+-, Classify, 180.9, 94.2, 1.92038, 0.960191
+-, Compare, 109.8, 54, 2.03333, 1.01667

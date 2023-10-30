@@ -19,7 +19,7 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 # Definir les matricules de l'equipe
-set(MATRICULES "")
+set(MATRICULES "BOSG64080108-BELY22119707")
 
 if(MATRICULES)
   set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${MATRICULES})

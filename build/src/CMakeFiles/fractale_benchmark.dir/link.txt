@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/fractale_benchmark.dir/fractale_benchmark.cpp.o -o ../bin/fractale_benchmark  ../lib/libfractalelib.a -pthread 

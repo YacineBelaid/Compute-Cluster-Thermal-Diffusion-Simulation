@@ -1,23 +1,26 @@
-add_library(fractalelib
-  color.cpp
-  color.h
+add_library(kmeanslib
+  point.cpp
+  point.h
 
-  draw_parallel.cpp
-  draw_parallel.h
+  kmeans.cpp
+  kmeans.h
 
-  draw_serial.cpp
-  draw_serial.h
+  kmeans_parallel.cpp
+  kmeans_parallel.h
+
+  kmeanproblem.cpp
+  kmeanproblem.h
 
   modules.cpp
   modules.h
 )
-target_link_libraries(fractalelib PUBLIC Threads::Threads)
-target_include_directories(fractalelib PUBLIC
+target_link_libraries(kmeanslib PUBLIC Threads::Threads TBB::tbb)
+target_include_directories(kmeanslib PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
-add_executable(fractale fractale.cpp)
-target_link_libraries(fractale fractalelib)
+add_executable(kmeans main.cpp)
+target_link_libraries(kmeans kmeanslib)
 
-add_executable(fractale_benchmark fractale_benchmark.cpp)
-target_link_libraries(fractale_benchmark fractalelib)
+add_executable(kmeans_benchmark kmeans_benchmark.cpp)
+target_link_libraries(kmeans_benchmark kmeanslib)

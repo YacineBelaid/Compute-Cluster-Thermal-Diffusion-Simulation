@@ -1,13 +1,12 @@
 #include "modules.h"
 
-const struct lib_def libs[] = {
-    {.name = "serial",
-     .lib = THREAD_LIB_SERIAL,
-     .draw = dragon_draw_serial,
-     .limits = dragon_limits_serial},
-    {.name = "parallel",
-     .lib = THREAD_LIB_PTHREAD,
-     .draw = dragon_draw_parallel,
-     .limits = dragon_limits_pthread},
-    {.name = NULL, .lib = THREAD_LIB_NONE, .draw = NULL, .limits = NULL},
+const std::vector<struct test_klass> algo = {
+    {"serial", CreateKMeansSerial},
+    {"parallel", CreateKMeansParallel},
 };
+
+std::shared_ptr<KMeans> CreateKMeansSerial() { return std::make_shared<KMeans>(); }
+
+std::shared_ptr<KMeansParallel> CreateKMeansParallel() {
+  return std::make_shared<KMeansParallel>();
+}

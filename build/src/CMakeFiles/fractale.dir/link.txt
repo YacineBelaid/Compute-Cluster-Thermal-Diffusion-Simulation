@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/fractale.dir/fractale.cpp.o -o ../bin/fractale  ../lib/libfractalelib.a -pthread 
