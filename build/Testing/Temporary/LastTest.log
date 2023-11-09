@@ -1,0 +1,32 @@
+Start testing: Nov 09 15:14 EST
+----------------------------------------------------------
+1/1 Testing: test_kmeans
+1/1 Test: test_kmeans
+Command: "/home/sanji/Desktop/5171/Tp/2/tppp1/build/bin/test_kmeans"
+Directory: /home/sanji/Desktop/5171/Tp/2/tppp1/build/test
+"test_kmeans" start time: Nov 09 15:14 EST
+Output:
+----------------------------------------------------------
+TEST serial
+iter 0
+iter 1
+iter 2
+PASS 1 2 (10, 10) (10, 10) 3.32919e-13
+PASS 0 1 (5, 5) (5, 5) 1.528e-13
+PASS 2 0 (0, 0) (-8.39496e-17, -7.60842e-18) 8.42937e-17
+TEST parallel
+iter 0
+iter 1
+iter 2
+PASS 1 2 (10, 10) (10, 10) 3.32919e-13
+PASS 0 1 (5, 5) (5, 5) 1.528e-13
+PASS 2 0 (0, 0) (-8.39496e-17, -7.60842e-18) 8.42937e-17
+<end of output>
+Test time =  12.86 sec
+----------------------------------------------------------
+Test Passed.
+"test_kmeans" end time: Nov 09 15:15 EST
+"test_kmeans" time elapsed: 00:00:12
+----------------------------------------------------------
+
+End testing: Nov 09 15:15 EST

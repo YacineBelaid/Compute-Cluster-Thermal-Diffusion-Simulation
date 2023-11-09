@@ -6,6 +6,62 @@
 
 #include <cassert>
 
+class KMeansReducer {
+public:
+    KMeansReducer(const std::vector<Point>& points,
+                  const std::vector<Point>& cluster_centers,
+                  std::vector<uint8_t>& cluster,
+                  std::vector<double>& distances): points(points), cluster_centers(cluster_centers),
+                    cluster(cluster), distances(distances), changes(0) {}
+
+    KMeansReducer(const KMeansReducer& other, tbb::split)
+            : points(other.points), cluster_centers(other.cluster_centers),
+              cluster(other.cluster), distances(other.distances), changes(0) {}
+
+    // Méthode pour paralléliser le code
+    void operator()(const tbb::blocked_range<size_t>& range) {
+        for (size_t point_id = range.begin(); point_id < range.end(); point_id++) {
+            double min_dist = std::numeric_limits<double>::max();
+            uint8_t new_cluster_id = 0;
+            const Point& point = points.at(point_id);
+
+            for (size_t i = 0; i < cluster_centers.size(); i++) {
+                const Point& centroid = cluster_centers[i];
+                double dist = point.dist(centroid);
+
+                if (dist < min_dist) {
+                    min_dist = dist;
+                    new_cluster_id = i;
+                }
+            }
+
+            if (cluster[point_id] != new_cluster_id) {
+                cluster[point_id] = new_cluster_id;
+                changes++;
+            }
+
+            distances[point_id] = min_dist;
+        }
+    }
+
+    // Méthode pour fusionner les résultats des différents threads
+    void join(const KMeansReducer& other) {
+        changes += other.changes;
+    }
+
+    // Accesseur pour obtenir le nombre de changements
+    int GetChanges() const {
+        return changes;
+    }
+
+private:
+    const std::vector<Point>& points;
+    const std::vector<Point>& cluster_centers;
+    std::vector<uint8_t>& cluster;
+    std::vector<double>& distances;
+    size_t changes;
+};
+
 KMeansParallel::KMeansParallel() : KMeans() {}
 
 void KMeansParallel::fit(const std::vector<Point>& points, const std::vector<Point>& start_points) {
@@ -30,7 +86,14 @@ void KMeansParallel::fit(const std::vector<Point>& points, const std::vector<Poi
      * changent de cluster.
      */
     size_t changes = 0;
-//parallel_reduce
+
+    tbb::task_arena limited_arena(std::thread::hardware_concurrency());
+        limited_arena.execute([&]{
+        KMeansReducer reducer(points, m_cluster_centers, m_cluster, distances);
+        tbb::parallel_reduce(tbb::blocked_range<size_t>(0, points.size()), reducer);
+        changes = reducer.GetChanges();
+    });
+    /* parallelisation avec for
     tbb::task_arena limited_arena(std::thread::hardware_concurrency());
     limited_arena.execute([&]{
         tbb::parallel_for(tbb::blocked_range<size_t>(0, points.size()), [&](tbb::blocked_range<size_t>& range) {
@@ -54,6 +117,7 @@ void KMeansParallel::fit(const std::vector<Point>& points, const std::vector<Poi
           }
         });
     });
+    */
 
     /*
      * Mise à jour du centre de chaque cluster basé sur les points qui le compose. Le nouveau

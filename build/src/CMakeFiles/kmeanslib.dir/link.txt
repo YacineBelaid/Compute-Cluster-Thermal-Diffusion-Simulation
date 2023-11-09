@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libkmeanslib.a CMakeFiles/kmeanslib.dir/point.cpp.o CMakeFiles/kmeanslib.dir/kmeans.cpp.o CMakeFiles/kmeanslib.dir/kmeans_parallel.cpp.o CMakeFiles/kmeanslib.dir/kmeanproblem.cpp.o CMakeFiles/kmeanslib.dir/modules.cpp.o
+/usr/bin/ranlib ../lib/libkmeanslib.a
