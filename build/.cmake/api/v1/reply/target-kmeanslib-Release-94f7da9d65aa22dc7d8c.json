@@ -12,7 +12,6 @@
 		"commands" : 
 		[
 			"add_library",
-			"target_link_libraries",
 			"target_include_directories"
 		],
 		"files" : 
@@ -33,12 +32,6 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 17,
-				"parent" : 0
-			},
-			{
-				"command" : 2,
-				"file" : 0,
 				"line" : 18,
 				"parent" : 0
 			}
@@ -50,23 +43,16 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g"
+					"fragment" : "-O3 -DNDEBUG"
 				},
 				{
 					"fragment" : "-std=gnu++14"
 				}
 			],
-			"defines" : 
-			[
-				{
-					"backtrace" : 2,
-					"define" : "TBB_USE_DEBUG"
-				}
-			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 2,
 					"path" : "/home/sanji/Desktop/5171/Tp/2/tppp1/src"
 				}
 			],
