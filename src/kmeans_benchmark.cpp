@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
   double avgAccelerationCompare = avgSerialCompare / avgParallelCompare;
   double avgEfficienceCompare = avgAccelerationCompare / (maxThreads - 1);
 
-  std::ofstream outputFile("benchmark2.csv");
+  std::ofstream outputFile("benchmark.csv");
     if (outputFile.is_open()) {
       outputFile << "Fonction, Duree Serie, Duree Parallele, Acceleration, Efficience, " << std::endl;
 
@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
                   << avgAccelerationCompare << ", " << avgEfficienceCompare << std::endl;
       outputFile.close();
     } else {
-      std::cerr << "Impossible d'ouvrir le fichier benchmark2.csv pour écriture." << std::endl;
+      std::cerr << "Impossible d'ouvrir le fichier benchmark.csv pour écriture." << std::endl;
       return -1;
     }
 
