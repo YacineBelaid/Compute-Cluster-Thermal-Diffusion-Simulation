@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/kmeans_benchmark.dir/kmeans_benchmark.cpp.o -o ../bin/kmeans_benchmark  ../lib/libkmeanslib.a /usr/lib/x86_64-linux-gnu/libtbb.so.12.5 

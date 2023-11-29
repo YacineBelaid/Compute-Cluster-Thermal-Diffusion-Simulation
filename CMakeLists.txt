@@ -1,31 +1,20 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.18)
 
-project(inf5171-tp2 LANGUAGES C CXX VERSION 23.1)
+project(inf5171-233-tp3 LANGUAGES CXX)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+find_package(MFEM REQUIRED)
 
-enable_testing()
-include(CTest)
+add_executable(heatsim heatsim.cpp)
+target_link_libraries(heatsim mfem)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-find_package(TBB REQUIRED)
+configure_file(env.sh.in env.sh)
 
-add_subdirectory(src)
-add_subdirectory(test)
-
-# Definir les matricules de l'equipe
-set(MATRICULES "BOSG64080108_BELY22119707")
-
-if(MATRICULES)
-  set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${MATRICULES})
-endif()
-
+# Package
+string(TIMESTAMP TS "%Y%m%d%H%M%S")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${TS})
+set(CPACK_SOURCE_GENERATOR "ZIP")
 set(CPACK_SOURCE_IGNORE_FILES
-	"/build/;/.git/;~$;CMakeLists.txt.user;/venv;${CPACK_SOURCE_IGNORE_FILES}")
+        "/build/;/.git/;~$;CMakeLists.txt.user;/data/.*\\\\.png;/results/;${CPACK_SOURCE_IGNORE_FILES}")
 include(CPack)
 add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+
