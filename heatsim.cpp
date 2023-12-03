@@ -25,6 +25,7 @@ using namespace mfem;
 
 int main(int argc, char *argv[]) {
   // 1. Initialize MPI and HYPRE.
+  auto start_program = std::chrono::steady_clock::now();
   Mpi::Init();
   int num_procs = Mpi::WorldSize();
   int myid = Mpi::WorldRank();
@@ -56,9 +57,11 @@ int main(int argc, char *argv[]) {
     args.PrintOptions(cout);
   }
 
+  // CHARGEMENT ET RAFFINEMENT DU MAILLAGE
   // 4. Read the (serial) mesh from the given mesh file on all processors.  We
   //    can handle triangular, quadrilateral, tetrahedral, hexahedral, surface
   //    and volume meshes with the same code.
+  auto start_mesh = std::chrono::steady_clock::now();
   Mesh mesh(mesh_file, 1, 1);
   int dim = mesh.Dimension();
   if (myid == 0) {
@@ -79,10 +82,14 @@ int main(int argc, char *argv[]) {
     std::cout << "Number of Elements after refinement: " << pmesh.GetNE()
               << std::endl;
   }
+  auto end_mesh = std::chrono::steady_clock::now();
+  double duration_mesh = std::chrono::duration_cast<std::chrono::milliseconds>(end_mesh - start_mesh).count();
 
+  // ASSEMBLAGE
   // 7. Define a parallel finite element space on the parallel mesh. Here we
   //    use continuous Lagrange finite elements of the specified order. If
   //    order < 1, we instead use an isoparametric/isogeometric space.
+  auto start_assembly = std::chrono::steady_clock::now();
   FiniteElementCollection *fec;
   bool delete_fec;
   if (order > 0) {
@@ -114,10 +121,14 @@ int main(int argc, char *argv[]) {
     ess_bdr = 1;
     fespace.GetEssentialTrueDofs(ess_bdr, ess_tdof_list);
   }
+  auto end_assembly = std::chrono::steady_clock::now();
+  double duration_assembly = std::chrono::duration_cast<std::chrono::milliseconds>(end_assembly - start_assembly).count();
 
+  // RÉSOLUTION
   // 9. Set up the parallel linear form b(.) which corresponds to the
   //    right-hand side of the FEM linear system, which in this case is
   //    (1,phi_i) where phi_i are the basis functions in fespace.
+  auto start_resolution = std::chrono::steady_clock::now();
   ParLinearForm b(&fespace);
   ConstantCoefficient one(1.0);
   b.AddDomainIntegrator(new DomainLFIntegrator(one));
@@ -159,8 +170,12 @@ int main(int argc, char *argv[]) {
   // 14. Recover the parallel grid function corresponding to X. This is the
   //     local finite element solution on each processor.
   a.RecoverFEMSolution(X, b, x);
+  auto end_resolution = std::chrono::steady_clock::now();
+  double duration_resolution = std::chrono::duration_cast<std::chrono::milliseconds>(end_resolution - start_resolution).count();
 
+  // SAUVEGARDE DES RÉSULTATS
   // 15. Save the refined mesh and the solution in parallel.
+  auto start_save = std::chrono::steady_clock::now();
   {
     ParGridFunction partition(&fespace);
     partition = static_cast<double>(myid);
@@ -178,11 +193,34 @@ int main(int argc, char *argv[]) {
     pd->Save();
     delete pd;
   }
+  auto end_save = std::chrono::steady_clock::now();
+  double duration_save = std::chrono::duration_cast<std::chrono::milliseconds>(end_save - start_save).count();
 
   // 17. Free the used memory.
   if (delete_fec) {
     delete fec;
   }
+
+  auto end_program = std::chrono::steady_clock::now();
+  double program_duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_program - start_program).count();
+  double dofs_per_second = size / (program_duration / 1000.0);
+
+  //ECRITURE
+  std::ofstream outputFile("timeMeasurement.csv");
+  if (outputFile.is_open()) {
+        outputFile << "Resultats : " <<  std::endl;
+        outputFile << "Raffinement : " << duration_mesh << "milliseconds." << std::endl;
+        outputFile << "Assemblage : " << duration_assembly << "milliseconds." << std::endl;
+        outputFile << "Résolution : " << duration_resolution << "milliseconds." << std::endl;
+        outputFile << "Sauvegarde : " << duration_save << "milliseconds." << std::endl;
+        outputFile << "Degrees of Freedom : " << size << std::endl;
+        outputFile << "Duree du programme : " << program_duration << " milliseconds" << endl;
+        outputFile << "DoF/s: " << dofs_per_second << endl;
+        outputFile.close();
+      } else {
+        std::cerr << "Impossible d'ouvrir le fichier timeMeasurement.csv pour écriture." << std::endl;
+        return -1;
+      }
 
   return 0;
 }
