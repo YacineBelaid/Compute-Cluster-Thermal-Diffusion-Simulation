@@ -19,6 +19,7 @@
 #include "mfem.hpp"
 #include <fstream>
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 using namespace mfem;
@@ -26,11 +27,13 @@ using namespace mfem;
 int main(int argc, char *argv[]) {
 
  int num_procs = 1; // Défaut
+ int num_rp = 1; // Defaut
     if (argc > 1) {
         num_procs = std::stoi(argv[1]);
+        num_rp = std::stoi(argv[2]);
     }
  const char *output = "Heatsim";
-    std::string output_name = output + std::to_string(num_procs);
+    std::string output_name = output + "p"+ std::to_string(num_procs )+"rp"+std::to_string(num_rp);
   // 1. Initialize MPI and HYPRE.
   auto start_program = std::chrono::steady_clock::now();
   Mpi::Init();
@@ -216,6 +219,7 @@ int main(int argc, char *argv[]) {
   std::ofstream outputFile(output_name + "_timeMeasurement.csv");
   if (outputFile.is_open()) {
         outputFile << "nombre de processeurs : " << num_procs << std::endl;
+        outputFile << "nombre de raffinement parrallel :" << num_rp << std::endl;
         outputFile << "Resultats : " <<  std::endl;
         outputFile << "Raffinement : " << duration_mesh << "milliseconds." << std::endl;
         outputFile << "Assemblage : " << duration_assembly << "milliseconds." << std::endl;
