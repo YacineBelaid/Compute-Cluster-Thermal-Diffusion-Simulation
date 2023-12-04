@@ -26,15 +26,7 @@ using namespace mfem;
 
 int main(int argc, char *argv[]) {
 
- int num_procs = 1; //par défaut
- int num_rp = 1; //par défaut
-    if (argc > 2) {
-      int num_procs = std::stoi(argv[argc - 2]); // Nombre de processeurs
-      int num_rp = std::stoi(argv[argc - 1]);   // niveau de Raffinement parallele 
-    }
- 
-    std::string output_name = "Heatsim_ p_"+ std::to_string(num_procs )+"rp_"+std::to_string(num_rp);
-  // 1. Initialize MPI and HYPRE.
+ // 1. Initialize MPI and HYPRE.
   auto start_program = std::chrono::steady_clock::now();
   Mpi::Init();
 //  int num_procs = Mpi::WorldSize();
@@ -55,6 +47,7 @@ int main(int argc, char *argv[]) {
   args.AddOption(&par_ref_levels, "-rp", "--refine-parallel",
                  "Number of times to refine the mesh uniformly in parallel.");
   args.AddOption(&output, "-n", "--name", "Output data collection name");
+  args.AddOption(&processors, "-p", "--processeurs", "Number of processors used for output");
 
   args.Parse();
   if (!args.Good()) {
@@ -216,6 +209,8 @@ int main(int argc, char *argv[]) {
   double dofs_per_second = size / (program_duration / 1000.0);
 
   //ECRITURE
+ 
+  std::string output_name = "Heatsim_ p_"+ std::to_string(processors)+"rp_"+std::to_string(par_ref_levels);
   std::ofstream outputFile(output_name + "_timeMeasurement.csv");
   if (outputFile.is_open()) {
         outputFile << "nombre de processeurs : " << num_procs << std::endl;
