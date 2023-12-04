@@ -215,6 +215,7 @@ int main(int argc, char *argv[]) {
   //ECRITURE
   std::ofstream outputFile(output_name + "_timeMeasurement.csv");
   if (outputFile.is_open()) {
+        outputFile << "nombre de processeurs : " << num_procs << std::endl;
         outputFile << "Resultats : " <<  std::endl;
         outputFile << "Raffinement : " << duration_mesh << "milliseconds." << std::endl;
         outputFile << "Assemblage : " << duration_assembly << "milliseconds." << std::endl;
@@ -225,7 +226,7 @@ int main(int argc, char *argv[]) {
         outputFile << "DoF/s: " << dofs_per_second << endl;
         outputFile.close();
   } else {
-      std::cerr << "Impossible d'ouvrir le fichier timeMeasurement.csv pour écriture." << std::endl;
+      std::cerr << "Impossible d'ouvrir le fichier CPU_timeMeasurement.csv pour écriture." << std::endl;
       return -1;
   }
 
