@@ -26,11 +26,11 @@ using namespace mfem;
 
 int main(int argc, char *argv[]) {
 
- int num_procs = 1; // Défaut
- int num_rp = 1; // Defaut
+ int num_procs = 1; //par défaut
+ int num_rp = 1; //par défaut
     if (argc > 2) {
-        num_procs = std::stoi(argv[1]);
-        num_rp = std::stoi(argv[2]);
+      int num_procs = std::stoi(argv[argc - 2]); // Nombre de processeurs
+      int num_rp = std::stoi(argv[argc - 1]);   // niveau de Raffinement parallele 
     }
  
     std::string output_name = "Heatsim_ p_"+ std::to_string(num_procs )+"rp_"+std::to_string(num_rp);
