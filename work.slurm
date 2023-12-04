@@ -6,13 +6,13 @@
 # Nombre de processeurs à tester
 processors="1 2 4 8 16 32 64"
 
-# Commande à exécuter
-command="./heatsim"
+# Niveau de raffinement parrallel
+rpr=" 1 2 3 4"
 
-# Options communes
-common_options="-o 2 -m ../data/part.msh"
 
-# Boucle pour lancer le programme avec différents nombres de processeurs
+# Boucle pour lancer le programme avec différents nombres de processeurs et de raffinement parrallel
 for p in $processors; do
-    srun --ntasks=$p --mem-per-cpu=8000M $command $common_options $p
+ for rpara in $rpr; do
+    srun --ntasks=$p --mem-per-cpu=8000M ./heatsim -rp=$rpara -o 2 -m ../data/part.msh -n Heatsim_$p__$rpr $p 
+ done
 done
