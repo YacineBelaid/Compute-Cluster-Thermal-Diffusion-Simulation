@@ -217,10 +217,10 @@ int main(int argc, char *argv[]) {
         outputFile << "Duree du programme : " << program_duration << " milliseconds" << endl;
         outputFile << "DoF/s: " << dofs_per_second << endl;
         outputFile.close();
-      } else {
-        std::cerr << "Impossible d'ouvrir le fichier timeMeasurement.csv pour écriture." << std::endl;
-        return -1;
-      }
+  } else {
+      std::cerr << "Impossible d'ouvrir le fichier timeMeasurement.csv pour écriture." << std::endl;
+      return -1;
+  }
 
   return 0;
 }
