@@ -24,6 +24,13 @@ using namespace std;
 using namespace mfem;
 
 int main(int argc, char *argv[]) {
+
+ int num_procs = 1; // Défaut
+    if (argc > 1) {
+        num_procs = std::stoi(argv[1]);
+    }
+ const char *output = "Heatsim";
+    std::string output_name = output + std::to_string(num_procs);
   // 1. Initialize MPI and HYPRE.
   auto start_program = std::chrono::steady_clock::now();
   Mpi::Init();
@@ -206,8 +213,9 @@ int main(int argc, char *argv[]) {
   double dofs_per_second = size / (program_duration / 1000.0);
 
   //ECRITURE
-  std::ofstream outputFile("timeMeasurement.csv");
+  std::ofstream outputFile(output_name + "_timeMeasurement.csv");
   if (outputFile.is_open()) {
+        outputFile << "nombre de processeurs : " << num_procs << std::endl;
         outputFile << "Resultats : " <<  std::endl;
         outputFile << "Raffinement : " << duration_mesh << "milliseconds." << std::endl;
         outputFile << "Assemblage : " << duration_assembly << "milliseconds." << std::endl;
@@ -218,7 +226,7 @@ int main(int argc, char *argv[]) {
         outputFile << "DoF/s: " << dofs_per_second << endl;
         outputFile.close();
   } else {
-      std::cerr << "Impossible d'ouvrir le fichier timeMeasurement.csv pour écriture." << std::endl;
+      std::cerr << "Impossible d'ouvrir le fichier CPU_timeMeasurement.csv pour écriture." << std::endl;
       return -1;
   }
 
