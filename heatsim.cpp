@@ -38,6 +38,7 @@ int main(int argc, char *argv[]) {
   int order = 1;
   int par_ref_levels = 1;
   const char *output = "Heatsim";
+  int processors = 1; //par défaut
 
   OptionsParser args(argc, argv);
   args.AddOption(&mesh_file, "-m", "--mesh", "Mesh file to use.");
@@ -213,8 +214,8 @@ int main(int argc, char *argv[]) {
   std::string output_name = "Heatsim_ p_"+ std::to_string(processors)+"rp_"+std::to_string(par_ref_levels);
   std::ofstream outputFile(output_name + "_timeMeasurement.csv");
   if (outputFile.is_open()) {
-        outputFile << "nombre de processeurs : " << num_procs << std::endl;
-        outputFile << "nombre de raffinement parrallel :" << num_rp << std::endl;
+        outputFile << "nombre de processeurs : " << processors << std::endl;
+        outputFile << "nombre de raffinement parrallel :" << par_ref_levels << std::endl;
         outputFile << "Resultats : " <<  std::endl;
         outputFile << "Raffinement : " << duration_mesh << "milliseconds." << std::endl;
         outputFile << "Assemblage : " << duration_assembly << "milliseconds." << std::endl;
