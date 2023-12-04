@@ -13,6 +13,6 @@ rpr=" 1 2 3 4"
 # Boucle pour lancer le programme avec différents nombres de processeurs et de raffinement parrallel
 for p in $processors; do
  for rpara in $rpr; do
-    srun --ntasks=$p --mem-per-cpu=8000M ./heatsim -rp=$rpara -o 2 -m ../data/part.msh -n Heatsim_$p__$rpr $p 
+    srun --ntasks=$p --mem-per-cpu=125M ./build/heatsim -rp=$rpara -o 2 -m ../data/part.msh -n Heatsim_$p__$rpara $p $rpara 
  done
 done

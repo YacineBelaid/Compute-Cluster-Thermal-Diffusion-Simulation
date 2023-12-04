@@ -20,7 +20,7 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
-
+#include <string>
 using namespace std;
 using namespace mfem;
 
@@ -28,16 +28,16 @@ int main(int argc, char *argv[]) {
 
  int num_procs = 1; // Défaut
  int num_rp = 1; // Defaut
-    if (argc > 1) {
+    if (argc > 2) {
         num_procs = std::stoi(argv[1]);
         num_rp = std::stoi(argv[2]);
     }
- const char *output = "Heatsim";
-    std::string output_name = output + "p"+ std::to_string(num_procs )+"rp"+std::to_string(num_rp);
+ 
+    std::string output_name = "Heatsim_ p_"+ std::to_string(num_procs )+"rp_"+std::to_string(num_rp);
   // 1. Initialize MPI and HYPRE.
   auto start_program = std::chrono::steady_clock::now();
   Mpi::Init();
-  int num_procs = Mpi::WorldSize();
+//  int num_procs = Mpi::WorldSize();
   int myid = Mpi::WorldRank();
   Hypre::Init();
 

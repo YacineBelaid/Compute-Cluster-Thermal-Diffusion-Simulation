@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /cvmfs/soft.computecanada.ca/easybuild/software/2020/Core/cmake/3.27.7/bin/cmake --regenerate-during-build -S/home/yb3322/tppp1 -B/home/yb3322/tppp1/build
+  command = /cvmfs/soft.computecanada.ca/easybuild/software/2020/Core/cmake/3.27.7/bin/cmake --regenerate-during-build -S/home/yb3322/projects/def-sponsor00/yb3322/tppp1 -B/home/yb3322/projects/def-sponsor00/yb3322/tppp1/build
   description = Re-running CMake...
   generator = 1
 

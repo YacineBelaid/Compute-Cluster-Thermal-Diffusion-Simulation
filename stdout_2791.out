@@ -1,0 +1,36 @@
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
+srun: error: nodegpu1: task 0: Aborted (core dumped)
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
+srun: error: nodegpu1: task 0: Aborted (core dumped)
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
+srun: error: nodegpu1: task 0: Aborted (core dumped)
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
+srun: error: nodegpu1: task 0: Aborted (core dumped)
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
+srun: error: Unable to create step for job 2791: More processors requested than permitted
