@@ -11,8 +11,8 @@ rpl=" 1 2 3 4"
 
 # Boucle pour lancer le programme avec différents nombres de processeurs et de raffinement parallel
 for p in $processors; do
- mem_per_cpu=$((4096 / p))M
+ mem_per_cpu=$((1024/p))M
     for rp in $rpl; do
-        srun --ntasks=$p --mem-per-cpu=mem_per_cpu ./build/heatsim -rp $rp -o 2 -m ../data/part.msh -n "Heatsim_${p}_${rp}" -p $p
+        srun --ntasks=$p --mem-per-cpu=$mem_per_cpu ./build/heatsim -rp $rp -o 2 -m ../data/part.msh -n "Heatsim_${p}_${rp}" -p $p
     done
 done
