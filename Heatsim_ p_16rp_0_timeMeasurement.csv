@@ -1,0 +1,10 @@
+nombre de processeurs : 16
+nombre de raffinement parrallel :0
+Resultats : 
+Raffinement : 236milliseconds.
+Assemblage : 41milliseconds.
+Résolution : 1075milliseconds.
+Sauvegarde : 79milliseconds.
+Degrees of Freedom : 22706
+Duree du programme : 2291 milliseconds
+DoF/s: 9910.96

@@ -1,0 +1,9 @@
+Options used:
+   --mesh ./data/part.msh
+   --order 2
+   --refine-parallel 4
+   --name Heatsim_4_4
+   --processeurs 4
+Number of Elements before refinement: 14008
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6589.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: nodepoolgpu13: task 2: Out Of Memory
