@@ -7,3 +7,6 @@ Options used:
 Number of Elements before refinement: 14008
 slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6588.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
 srun: error: nodepoolgpu12: task 2: Out Of Memory
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 6588.0 ON nodepoolgpu12 CANCELLED AT 2023-12-09T06:13:49 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 6588 ON nodepoolgpu12 CANCELLED AT 2023-12-09T06:13:49 DUE TO TIME LIMIT ***

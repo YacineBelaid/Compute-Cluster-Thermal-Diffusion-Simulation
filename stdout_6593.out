@@ -11,3 +11,6 @@ slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6593.0. Some of your p
 srun: error: nodepoolgpu9: task 13: Out Of Memory
 slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6593.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
 slurmstepd: error: Detected 3 oom-kill event(s) in StepId=6593.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 6593.0 ON node1 CANCELLED AT 2023-12-09T06:14:19 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 6593 ON node1 CANCELLED AT 2023-12-09T06:14:19 DUE TO TIME LIMIT ***

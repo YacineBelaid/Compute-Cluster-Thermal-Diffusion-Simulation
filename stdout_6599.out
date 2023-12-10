@@ -1,0 +1,18 @@
+Options used:
+   --mesh ./data/part.msh
+   --order 2
+   --refine-parallel 4
+   --name Heatsim_32_4
+   --processeurs 32
+Number of Elements before refinement: 14008
+slurmstepd: error: Detected 78 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: nodepoolgpu8: task 12: Out Of Memory
+slurmstepd: error: Detected 5 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 5 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=6599.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd: error: *** STEP 6599.0 ON node1 CANCELLED AT 2023-12-09T10:26:21 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 6599 ON node1 CANCELLED AT 2023-12-09T10:26:21 DUE TO TIME LIMIT ***
