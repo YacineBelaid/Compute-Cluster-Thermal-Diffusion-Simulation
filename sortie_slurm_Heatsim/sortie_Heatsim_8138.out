@@ -1,0 +1,8 @@
+slurmstepd: error: Detected 25 oom-kill event(s) in StepId=8138.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: node1: task 3: Out Of Memory
+[node1.int.inf5171.calculquebec.cloud:954785] Read -1, expected 45568, errno = 3
+[node1.int.inf5171.calculquebec.cloud:954783] Read -1, expected 39748, errno = 3
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 8138 ON node1 CANCELLED AT 2023-12-11T22:07:18 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 8138.0 ON node1 CANCELLED AT 2023-12-11T22:07:18 DUE TO TIME LIMIT ***
+slurmstepd: error: Detected 26 oom-kill event(s) in StepId=8138.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

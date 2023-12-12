@@ -1,0 +1,33 @@
+Options used:
+   --mesh ./data/part.msh
+   --order 2
+   --refine-parallel 3
+   --name Rapport/Heatsim_16_3
+   --processeurs 16
+Number of Elements before refinement: 14008
+Number of Elements after refinement: 440320
+Number of finite element unknowns: 9823399
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=8169.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: node1: task 5: Out Of Memory
+--------------------------------------------------------------------------
+WARNING: Open MPI failed to TCP connect to a peer MPI process.  This
+should not happen.
+
+Your Open MPI job may now hang or fail.
+
+  Local host: nodegpu1
+  PID:        1560804
+  Message:    connect() to 192.168.239.106:1030 failed
+  Error:      Operation now in progress (115)
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: Open MPI failed to TCP connect to a peer MPI process.  This
+should not happen.
+
+Your Open MPI job may now hang or fail.
+
+  Local host: nodepoolgpu14
+  PID:        19016
+  Message:    connect() to 192.168.239.106:1032 failed
+  Error:      Operation now in progress (115)
+--------------------------------------------------------------------------

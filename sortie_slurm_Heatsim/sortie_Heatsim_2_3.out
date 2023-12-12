@@ -1,0 +1,9 @@
+Options used:
+   --mesh ./data/part.msh
+   --order 2
+   --refine-parallel 3
+   --name Rapport/Heatsim_2_3
+   --processeurs 2
+Number of Elements before refinement: 14008
+Number of Elements after refinement: 3594240
+Number of finite element unknowns: 9823399

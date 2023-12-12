@@ -1,0 +1,3 @@
+slurmstepd: error: Detected 2 oom-kill event(s) in StepId=8130.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: nodepoolgpu8: task 2: Out Of Memory
+slurmstepd: error: Detected 6 oom-kill event(s) in StepId=8130.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
