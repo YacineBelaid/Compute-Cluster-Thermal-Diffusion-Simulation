@@ -1,42 +1,43 @@
-# INF5171-233-tp3
+# 3D Parrallel Refinment on Compute CLusters
 
+Using MPI and C++ 
 
-## Mise en situation
+## Heat simulator
 
-Votre collègue vient vous demander de l'aide pour concevoir une pièce. Il s'agit d'un bloc dans lequel passe un fort courant, ce qui fait en sorte que la pièce chauffe. Votre collègue a tenté d'ajouter des tubes pour refroidir la pièce, mais aimerait savoir quelle est la température prévue dans la pièce. Étant donné que construire la pièce et tester différents design est coûteur, il vous demande votre aide pour la simuler.
+Heat simulation for part production 
 
-Pour ce TP, vous aurez besoin des outils suivants:
+Here the tools used for the simulation :
 
-* [GMSH](https://gmsh.info/) Générateur de maillage
-* [MFEM](https://mfem.org/) Librairie de simulation à éléments finis
-* [ParaView](https://www.paraview.org/) Visualisateur
+* [GMSH](https://gmsh.info/) Mesh generator
+* [MFEM](https://mfem.org/) Simulation library with limited elements
+* [ParaView](https://www.paraview.org/) Viualiser
 
-La librairie MFEM est disponible sur la grappe de calcul. Si vous souhaitez l'installer sur votre ordinateurs, suivez les instructions de compilation. Vous aurez besoin de METIS et HYPRE.
+ MFEM library is available on the Compute Cluster (Calcul Quebec). If you wish to install it on your computer, follow those compiling instructions. You will need METIS and HYPRE.
 
-## Design de la pièce
+## part Design
 
-La pièce est définie dans le fichier `data/part.geo` au format GMSH. La première étape est de visualiser la pièce et générer le maillage. Exécutez la commande suivante pour démarrer GMSH:
+A part basemodel is defined in the file `data/part.geo` with GMSH format.To visualise it,execute this command (it will launch GMSH):
 
 ```
 cd data
 gmsh part.geo
 ```
 
-La vue sera celle de la pièce et de deux canaux de refroidissement cylindrique. Pour générer le maillage, sélectionner dans le panneau de gauche `Modules > Mesh > 3D`. Pour mieux visualiser les éléments, sélectionner dans le menu `Tools > Options > Mesh > Visibility > 3D Element faces` et désactiver `2D ement edges`.
+You will visualise the part and two cylindrical cooling channels. To generate the mesh, select dans left tab `Modules > Mesh > 3D`. To get a better view of the elements, select  `Tools > Options > Mesh > Visibility > 3D Element faces` and deactivate `2D ement edges`.
 
-Pour visualiser l'intérieur du volume, sélectionner `Tools > Clipping > Mesh`. Sélectionner `Keep whole elements`, puis définir un plan de coupe. Effectuer une capture d'écran pour votre rapport.
+To visualise inside the model, select `Tools > Clipping > Mesh`. Select `Keep whole elements`, then define a cutting plane. 
 
-Pour générer le maillage de la pièce, utiliser la commande suivante, ce qui va générer le fichier `part.msh`. Le fichier MSH est nécessaire pour la simulation.
+To generate a mesh of the part, use the following command, (it will generate the file) `part.msh`. MSH file is necessary for the simulation.
 
 ```
 gmsh -3 part.geo
 ```
 
-## Lancement de la simulation
+## Start of Simulation
 
-Le programme principal est `heatsim`. Il s'agit d'un programme qui utilise MPI pour effectuer un calcul distribué. Il charge le maillage de la pièce, applique l'équation de diffusion pour assembler la matrice d'un système, fait la résolution à l'aide de la méthode du gradient conjugué, et sauvegarde le résultat.
+The main program is `heatsim`. It's a program using  MPI to execute a distributed calculation. It loads the mesh of the part, applies the diffusion equation to assemble the matrix of a system, solves using the conjugate gradient method, and saves the result.
 
-La compilation se fait avec CMake sur la grappe de calcul de la manière suivante.
+Compilation is done with CMake on the compute cluster in the following way.
 
 ```
 module load cmake
@@ -44,7 +45,7 @@ mkdir build
 cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/project/def-sponsor00/mfem/
 ```
 
-Voici les options du programme:
+Here are the program options:
 
 
 ```
@@ -63,57 +64,61 @@ Options:
    -n <string>, --name <string>, current value: Heatsim
 	Output data collection name
 ```
+  
+*  Use the '--mesh' option to use a different geometry. 
+*  * The '--order' option specifies the order of the interpolation polynomials. Values are usually 1, 2, or 3. A higher order is difficult to resolve and might not converge. 
+*  * The '--refine-parallel' option allows you to split the elements to increase the accuracy of the simulation. Typically, each refinement multiplies the number of elements by a factor of 7. * The '--name' option allows you to change the name of the output directory. If you run several simulations at the same time, each simulation must have its own directory, otherwise the results will be overwritten.
 
-* On utiliser l'option `--mesh` pour utiliser une autre géométrie.
-* L'option `--ordre` spécifie l'ordre des polynômes d'interpolation. Les valeurs sont généralement 1, 2, ou 3. Un ordre plus élevé est difficile à résoudre et pourrait ne pas converger.
-* L'option `--refine-parallel` permet de diviser les éléments pour augmenter la précision de la simulation. En règle général, chaque raffinement multiplie le nombre d'éléments par un facteur 7.
-* L'option `--name` permet de changer le nom du répertoire de sortie. Si on lance plusieurs simulations en même temps, chaque simulation doit avoir son propre répertoire, sinon les résultats seront écrasés.
-
-La simulation est sauvegardée dans le répertoire `ParaView/Heatsim`. Vous pouvez compresser et copier ce répertoire sur votre ordinateur. Ouvez le fichier `Heatsim.pvd` pour visualiser le résultat. Techniquement, visualiser le résultat avec un faible raffinement, sinon le fichier sera très volumineux.
-
+The simulation is saved in the 'ParaView/Heatsim' directory. You can compress and copy this directory to your computer. Open the 'Heatsim.pvd' file to view the result. Technically, view the result with low refinement, otherwise the file will be very large.
 Le lancement de la simulation se fait avec `mpirun` sur votre propre ordinateur, ou par l'entremise de SLURM sur la grappe de calcul. Voici des exemples:
 
 ```
-# Lancement avec deux processeurs
+# Launch with two processors
 mpirun -np 2 ./heatsim
 
-# Lancement avec srun sur 64 processeurs
-# Effectue 4 raffinements
-# Calcul avec des polynômes de degré 2
+#  Launch with 64 processors using srun
+#  4 parrallel refinements
+# Calculate with 2nd degree polynomial
 srun --ntasks=64 --mem-per-cpu=8000M ./heatsim -rp 4 -o 2 -m ../data/part.msh
 ```
 
-Attention: vous allez faire planter votre machine si vous tentez d'exécuter la commande destinée à la grappe (4 étapes de raffinement), car le maillage risque de ne pas entrer en mémoire d'un ordinateur de bureau.
+Warning: You will crash your machine if you try to run the command for the cluster (4 steps of refinement) because the mesh may not enter the memory of a desktop computer.
 
-Attention: le lancement de grandes simulations va produire d'énormes fichiers. Sur la grappe, lancer la simulation dans le répertoire `$HOME/scratch`, qui contient beaucoup d'espace libre.
+For Calcul Quebec :
+Warning: running large simulations will produce huge files. On the cluster, run the simulation in the '$HOME/scratch' directory, which contains a lot of free space.
 
-## Étude de la mise à l'échelle
+## Scaling Study
 
-Votre tâche consiste à mesurer le temps d'exécution des 4 étapes de la simulation.
+Now to study the scaling ability of the program, our task consists of measuring the execution time of the 4 stages of the simulation (creating a benchmark).
 
-Instrumentez le programme `heatsim.cpp` pour mesurer le temps de chaque étape et l'enregistrer dans un fichier.
+In`heatsim.cpp` we are measuring the time for each step and we save it in a file.
 
-* Chargement et raffinement du maillage
-* Assemblage
-* Résolution
-* Sauvegarde des résultats
+*  Mesh loading and refinement 
+*  Assembly 
+*  Resolution 
+*  Saving results
 
-Finalement, un métrique importante à calculer est la suivante: degrés de libertés (Degree of Freedom) calculé par unité de temps (DoF/s). Un degré de liberté correspond à un point de température de la simulation. Ceci permet de comparer des calculs en terme de débit en tenant en compte la taille du problème à résoudre.
+Finally, an important metric to calculate is: Degree of Freedom calculated per unit of time (DoF/s). A degree of freedom corresponds to a temperature point in the simulation. This makes it possible to compare calculations in terms of throughput, taking into account the size of the problem to be solved.
 
-Calculer la proportion du temps passé pour chaque étape et le temps écoulé total pour 1, 2, 4, 8, 16, 32, et 64 processeurs.
+We calculated the proportion of time spent for each step and the total elapsed time for 1, 2, 4, 8, 16, 32, and 64 processors.
 
-Faire varier le paramètre raffinement de 0 à 4. Attention: une très grande simulation va échouer ou prendre beaucoup de temps à 1 processeur. Si cela survient, il faut augmenter la limite de temps par défaut de 1h. Si la simulation échoue, ne pas en tenir compte dans l'analyse.
+By varying the refinement parameter from 0 to 4 Warning: a very large simulation will fail or take a long time at 1 processor. If this happens, the default time limit should be increased by 1 hour. If the simulation fails, disregard it in the analysis.
 
-Le lancement de tous les calculs doit se faire en exécutant un seul script. Les tâches doivent êtres ajoutées dans la file d'attente et réserver uniquement le nombre de processeurs requis pour l'expérience en cours.
+All calculations are started by running a single script. Tasks must be added to the queue and reserve only the number of processors required for the current experiment.
 
-Vous devez remettre un rapport d'au maximum 3 pages avec vos résultats, incluant une capture d'écran de votre maillage (GMSH) et un exemple de résultat avec une vue en coupe (ParaView), les graphiques d'accélération en fonction du nombre de processeurs et la proportion de chaque étape en fonction du nombre de processeurs et une courte analyse sur la mise à l'échelle de la simulation.
+You will find in the project a report with all the results, including a screenshot of the mesh (GMSH) and an example result with a section view (ParaView), acceleration graphs as a function of the number of processors and the proportion of each step as a function of the number of processors, and a short analysis on the scaling of the simulation.
 
-Remettez votre rapport ainsi qu'une archive ZIP, qui comprend votre code et vos scripts SLURM pour lancer votre simulation.
+Feel free to edit the SLURM scripts to launch your own simulation on your own compute cluster
 
-Barèmes:
-* Instrumentation du programme heatsim: 25
-* Scripts de lancement SLURM: 25
-* Rapport (captures, graphiques, analyse): 50
-* Total: 100
+## How to execute SLURM 
 
-Bon travail!
+Simply use/edit the shell script provided  'Boucle.sh': 
+```
+## launch from 1 - 64 processors for 1-4 parrallel refinment (you can make it start from 0 if you wish)
+
+./boucle.sh
+```
+I provided two SLURM script. Work.slurm is a base script allowing you to launch a simple simulation with the possibility of setting the memory per cpu dynamically
+The second one work2.slurm is a less flexible but more resilient script that will likely execute for all level parrallelism but it might be time consuming depending on your cluster hardware.
+
+Author : Yacine Belaid

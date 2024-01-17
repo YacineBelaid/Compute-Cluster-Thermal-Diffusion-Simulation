@@ -1,5 +1,5 @@
 //
-// Simulation de diffusion, basé sur l'exemple ex1p de MFEM.
+// thermo-diffusion simulation, based on ex1p from MFEM.
 //
 // Description:  This example code demonstrates the use of MFEM to define a
 //               simple finite element discretization of the Laplace problem
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   int order = 1;
   int par_ref_levels = 1;
   const char *output = "Heatsim";
-  int processors = 1; //par défaut
+  int processors = 1; //by default (Configure through SLURM)
 
   OptionsParser args(argc, argv);
   args.AddOption(&mesh_file, "-m", "--mesh", "Mesh file to use.");
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     args.PrintOptions(cout);
   }
 
-  // CHARGEMENT ET RAFFINEMENT DU MAILLAGE
+  // Loading and mesh refining
   // 4. Read the (serial) mesh from the given mesh file on all processors.  We
   //    can handle triangular, quadrilateral, tetrahedral, hexahedral, surface
   //    and volume meshes with the same code.
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   auto end_mesh = std::chrono::steady_clock::now();
   double duration_mesh = std::chrono::duration_cast<std::chrono::milliseconds>(end_mesh - start_mesh).count();
 
-  // ASSEMBLAGE
+  // Assembling
   // 7. Define a parallel finite element space on the parallel mesh. Here we
   //    use continuous Lagrange finite elements of the specified order. If
   //    order < 1, we instead use an isoparametric/isogeometric space.
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
   auto end_assembly = std::chrono::steady_clock::now();
   double duration_assembly = std::chrono::duration_cast<std::chrono::milliseconds>(end_assembly - start_assembly).count();
 
-  // RÉSOLUTION
+  // Render
   // 9. Set up the parallel linear form b(.) which corresponds to the
   //    right-hand side of the FEM linear system, which in this case is
   //    (1,phi_i) where phi_i are the basis functions in fespace.
@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
   auto end_resolution = std::chrono::steady_clock::now();
   double duration_resolution = std::chrono::duration_cast<std::chrono::milliseconds>(end_resolution - start_resolution).count();
 
-  // SAUVEGARDE DES RÉSULTATS
+  // Saving results
   // 15. Save the refined mesh and the solution in parallel.
   auto start_save = std::chrono::steady_clock::now();
   {
@@ -209,24 +209,23 @@ int main(int argc, char *argv[]) {
   double program_duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_program - start_program).count();
   double dofs_per_second = size / (program_duration / 1000.0);
 
-  //ECRITURE
- 
+  //Saving Benchmark
   std::string output_name = "Heatsim_ p_"+ std::to_string(processors)+"rp_"+std::to_string(par_ref_levels);
   std::ofstream outputFile(output_name + "_timeMeasurement.csv");
   if (outputFile.is_open()) {
-        outputFile << "nombre de processeurs : " << processors << std::endl;
-        outputFile << "nombre de raffinement parrallel :" << par_ref_levels << std::endl;
-        outputFile << "Resultats : " <<  std::endl;
-        outputFile << "Raffinement : " << duration_mesh << "milliseconds." << std::endl;
-        outputFile << "Assemblage : " << duration_assembly << "milliseconds." << std::endl;
-        outputFile << "Résolution : " << duration_resolution << "milliseconds." << std::endl;
-        outputFile << "Sauvegarde : " << duration_save << "milliseconds." << std::endl;
+        outputFile << "nombre de processeurs / number of processors :  " << processors << std::endl;
+        outputFile << "nombre de raffinement parrallel / number of parrallel refinement :" << par_ref_levels << std::endl;
+        outputFile << "Resultats / Results : " <<  std::endl;
+        outputFile << "Raffinement / Refinement : " << duration_mesh << "milliseconds." << std::endl;
+        outputFile << "Assemblage / Assembling : " << duration_assembly << "milliseconds." << std::endl;
+        outputFile << "Résolution / Render : " << duration_resolution << "milliseconds." << std::endl;
+        outputFile << "Sauvegarde / Save : " << duration_save << "milliseconds." << std::endl;
         outputFile << "Degrees of Freedom : " << size << std::endl;
-        outputFile << "Duree du programme : " << program_duration << " milliseconds" << endl;
+        outputFile << "Duree du programme / Program length : " << program_duration << " milliseconds" << endl;
         outputFile << "DoF/s: " << dofs_per_second << endl;
         outputFile.close();
   } else {
-      std::cerr << "Impossible d'ouvrir le fichier CPU_timeMeasurement.csv pour écriture." << std::endl;
+      std::cerr << "Impossible d'ouvrir le fichier CPU_timeMeasurement.csv pour écriture./ Unable to read CPU_timeMeasurment.csv" << std::endl;
       return -1;
   }
 
